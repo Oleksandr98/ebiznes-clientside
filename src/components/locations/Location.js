@@ -37,7 +37,7 @@ class Location extends Component {
                     new Date(this.state.location?.createDate).toLocaleString()
                 }</p>
                 <a href={"/locations/" + this.state.location?.id + "/modify"}>Modify</a>  &nbsp;
-                <a href="#" onClick={() => this.removeAndRedirect(this.state.location?.id)}>Remove</a>
+                <a href="/" onClick={() => this.removeAndRedirect(this.state.location?.id)}>Remove</a>
             </div>);
     }
 }

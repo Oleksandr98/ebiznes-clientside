@@ -51,7 +51,7 @@ class Offer extends Component {
                     this.showNonEmptyDate(this.state.offer?.endDate)
                 }</p>
                 <a href={"/offers/" + this.state.offer?.id + "/modify"}>Modify</a>  &nbsp;
-                <a href="#" onClick={() => this.removeAndRedirect(this.state.offer?.id)}>Remove</a>
+                <a href="/" onClick={() => this.removeAndRedirect(this.state.offer?.id)}>Remove</a>
             </div>);
     }
 }

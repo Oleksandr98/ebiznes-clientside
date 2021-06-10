@@ -37,7 +37,7 @@ class Categories extends Component {
                     }</p>
                     <p>Name: {x.name}</p>
                     <p>Code: {x.code}</p>
-                    <a href="#" onClick={() => this.removeAndRedirect(x.id)}>Remove</a>
+                    <a href="/" onClick={() => this.removeAndRedirect(x.id)}>Remove</a>
                     <hr/>
                 </li>)}
             </ul>

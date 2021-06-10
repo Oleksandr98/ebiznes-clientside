@@ -66,9 +66,9 @@ class Offer extends Component {
                 <br/>
                 <br/>
                 <a href={"/customers/" + this.state.customer?.id + "/modify"}>Modify</a>  &nbsp;
-                <a href="#" onClick={() => this.closeAndRedirect(this.state.customer?.id)}>Close</a> &nbsp;
-                <a href="#" onClick={() => this.block(this.state.customer?.id)}>Block</a> &nbsp;
-                <a href="#" onClick={() => this.unblock(this.state.customer?.id)}>Unblock</a>
+                <a href="/" onClick={() => this.closeAndRedirect(this.state.customer?.id)}>Close</a> &nbsp;
+                <a href="/" onClick={() => this.block(this.state.customer?.id)}>Block</a> &nbsp;
+                <a href="/" onClick={() => this.unblock(this.state.customer?.id)}>Unblock</a>
             </div>);
     }
 }

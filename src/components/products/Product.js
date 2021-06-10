@@ -28,7 +28,7 @@ class Product extends Component {
                 }</p>
                 <p>Category: {product?.category?.name}</p>
                 <a href={"/products/" + product?.id + "/modify"}>Modify</a>  &nbsp;
-                <a href="#" onClick={() => this.removeAndRedirect(product?.id)}>Remove</a>
+                <a href="/" onClick={() => this.removeAndRedirect(product?.id)}>Remove</a>
             </div>);
     }
 
