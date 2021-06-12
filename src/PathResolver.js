@@ -19,17 +19,17 @@ async function getProducts() {
 }
 
 async function addProduct(requestBody) {
-    const token = getCookie("csrfToken");
+    const token = sessionStorage.getItem("csrfToken");
     return axios.post(productsPath + "/add", requestBody, {headers: {'Csrf-Token': token}, withCredentials: true});
 }
 
 async function updateProduct(id, requestBody) {
-    const token = getCookie("csrfToken");
+    const token = sessionStorage.getItem("csrfToken");
     return axios.post(productsPath + "/" + id, requestBody, {headers: {'Csrf-Token': token}, withCredentials: true});
 }
 
 async function removeProduct(id) {
-    const token = getCookie("csrfToken");
+    const token = sessionStorage.getItem("csrfToken");
     return axios.delete(productsPath + "/" + id, {headers: {'Csrf-Token': token}, withCredentials: true});
 }
 
@@ -78,17 +78,17 @@ async function getCustomer(id) {
 }
 
 async function closeCustomer(id) {
-    const token = getCookie("csrfToken");
+    const token = sessionStorage.getItem("csrfToken");
     return axios.post(customersPath + "/" + id + "/close", {}, {headers: {'Csrf-Token': token}, withCredentials: true});
 }
 
 async function blockCustomer(id) {
-    const token = getCookie("csrfToken");
+    const token = sessionStorage.getItem("csrfToken");
     return axios.post(customersPath + "/" + id + "/block", {}, {headers: {'Csrf-Token': token}, withCredentials: true});
 }
 
 async function unblockCustomer(id) {
-    const token = getCookie("csrfToken");
+    const token = sessionStorage.getItem("csrfToken");
     return axios.post(customersPath + "/" + id + "/unblock", {}, {headers: {'Csrf-Token': token}, withCredentials: true});
 }
 
@@ -97,7 +97,7 @@ async function addCustomer(requestBody) {
 }
 
 async function updateCustomer(id, requestBody) {
-    const token = getCookie("csrfToken");
+    const token = sessionStorage.getItem("csrfToken");
     return axios.put(customersPath + "/" + id, requestBody, {headers: {'Csrf-Token': token}, withCredentials: true});
 }
 
@@ -112,17 +112,17 @@ async function getCard(id) {
 }
 
 async function addCard(requestBody) {
-    const token = getCookie("csrfToken");
+    const token = sessionStorage.getItem("csrfToken");
     return axios.post(cardsPath + "/add", requestBody, {headers: {'Csrf-Token': token}, withCredentials: true});
 }
 
 async function blockCard(id) {
-    const token = getCookie("csrfToken");
+    const token = sessionStorage.getItem("csrfToken");
     return axios.post(cardsPath + "/" + id + "/block", {}, {headers: {'Csrf-Token': token}, withCredentials: true});
 }
 
 async function closeCard(id) {
-    const token = getCookie("csrfToken");
+    const token = sessionStorage.getItem("csrfToken");
     return axios.post(cardsPath + "/" + id + "/close", {}, {headers: {'Csrf-Token': token}, withCredentials: true});
 }
 
@@ -143,13 +143,13 @@ async function getCoupon(id) {
 }
 
 async function addCoupon(requestBody) {
-    const token = getCookie("csrfToken");
+    const token = sessionStorage.getItem("csrfToken");
     return axios.post(couponsPath + "/add", requestBody, {headers: {'Csrf-Token': token}, withCredentials: true});
 }
 
 //carts
 async function createCart(requestBody) {
-    const token = getCookie("csrfToken");
+    const token = sessionStorage.getItem("csrfToken");
     return axios.post(shoppingCartPath + "/create", requestBody, {headers: {'Csrf-Token': token}, withCredentials: true});
 }
 
@@ -162,17 +162,17 @@ async function getCart(id) {
 }
 
 async function addToCart(id, requestBody) {
-    const token = getCookie("csrfToken");
+    const token = sessionStorage.getItem("csrfToken");
     return axios.post(shoppingCartPath + "/add/" + id, requestBody, {headers: {'Csrf-Token': token}, withCredentials: true});
 }
 
 async function removeFromCart(id, pId) {
-    const token = getCookie("csrfToken");
+    const token = sessionStorage.getItem("csrfToken");
     return axios.post(shoppingCartPath + "/" + id + "/remove/" + pId, {}, {headers: {'Csrf-Token': token}, withCredentials: true});
 }
 
 async function placeOrder(id, cId, requestBody) {
-    const token = getCookie("csrfToken");
+    const token = sessionStorage.getItem("csrfToken");
     return axios.post(shoppingCartPath + "/" + id + "/" + cId, requestBody, {headers: {'Csrf-Token': token}, withCredentials: true});
 }
 
@@ -196,27 +196,27 @@ async function getLocation(id) {
 }
 
 async function removeLocation(id) {
-    const token = getCookie("csrfToken");
+    const token = sessionStorage.getItem("csrfToken");
     return axios.delete(locationsPath + "/" + id, {headers: {'Csrf-Token': token}, withCredentials: true});
 }
 
 async function addLocation(requestBody) {
-    const token = getCookie("csrfToken");
+    const token = sessionStorage.getItem("csrfToken");
     return axios.post(locationsPath + "/add", requestBody, {headers: {'Csrf-Token': token}, withCredentials: true});
 }
 
 async function updateLocation(id, requestBody) {
-    const token = getCookie("csrfToken");
+    const token = sessionStorage.getItem("csrfToken");
     return axios.put(locationsPath + "/" + id, requestBody, {headers: {'Csrf-Token': token}, withCredentials: true});
 }
 
 async function addCategory(requestBody) {
-    const token = getCookie("csrfToken");
+    const token = sessionStorage.getItem("csrfToken");
     return axios.post(categoryPath + "/add", requestBody, {headers: {'Csrf-Token': token}, withCredentials: true});
 }
 
 async function removeCategory(id) {
-    const token = getCookie("csrfToken");
+    const token = sessionStorage.getItem("csrfToken");
     return axios.delete(categoryPath + "/" + id, {headers: {'Csrf-Token': token}, withCredentials: true});
 }
 
@@ -229,21 +229,9 @@ async function signUp(requestBody) {
 }
 
 async function signOut() {
-    const token = getCookie("csrfToken");
+    const token = sessionStorage.getItem("csrfToken");
     return axios.post(serverPath + "/signOut", {}, {headers: {'Csrf-Token': token}, withCredentials: true});
 }
-
-function getCookie(cookieName) {
-    let cookiesStr = document.cookie.split(";");
-    for (let cookieStr of cookiesStr) {
-        let spl = cookieStr.trim().split("=");
-        if (spl[0].trim() === cookieName) {
-            return spl[1].trim();
-        }
-    }
-    return "";
-}
-
 
 export {
     getProducts, getCategories, getProduct, getCategory, addProduct, updateProduct, removeProduct, addCategory, removeCategory,
