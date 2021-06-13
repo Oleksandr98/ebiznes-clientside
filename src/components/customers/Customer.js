@@ -43,6 +43,39 @@ class Offer extends Component {
         unblockCustomer(id).catch(error => console.log(error.response?.data.message));
     }
 
+    getDataToDisplay() {
+        return (this.state.error ?
+            <p>{this.state.error}</p>
+            : <>
+                <p>Name: {this.state.customer?.name}</p>
+                <p>Surname: {this.state.customer?.surname}</p>
+                <p>Status: {this.state.customer?.status}</p>
+                <p>Login: {this.state.customer?.login}</p>
+                <p>Enrollment date: {
+                    new Date(this.state.customer?.createDate).toLocaleString()
+                }</p>
+                <p>{
+                    this.showNonEmptyDate("Closure date", this.state.customer?.closureDate)
+                }</p>
+                <p>{
+                    this.showNonEmptyDate("Date of birth", this.state.customer?.birthDate)
+                }</p>
+                <a href={"/customers/" + this.state.customer?.id + "/cards"}>Cards</a>  &nbsp;
+                <a href={"/customers/" + this.state.customer?.id + "/transactions"}>Transactions</a>  &nbsp;
+                <a href={"/customers/" + this.state.customer?.id + "/coupons"}>Coupons</a>  &nbsp;
+                <a href={"/customers/" + this.state.customer?.id + "/orders"}>Orders</a>  &nbsp;
+                <a href={"/customers/" + this.state.customer?.id + "/shopping"}>Shopping Cart</a>  &nbsp;
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <a href={"/customers/" + this.state.customer?.id + "/modify"}>Modify</a>  &nbsp;
+                <a href="/" onClick={() => this.closeAndRedirect(this.state.customer?.id)}>Close</a> &nbsp;
+                <a href="/" onClick={() => this.block(this.state.customer?.id)}>Block</a> &nbsp;
+                <a href="/" onClick={() => this.unblock(this.state.customer?.id)}>Unblock</a>
+            </>)
+    }
+
     render() {
         return (
             <div style={{textAlign: "left"}}>
