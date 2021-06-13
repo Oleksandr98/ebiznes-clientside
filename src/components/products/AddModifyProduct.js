@@ -12,6 +12,7 @@ class AddModifyProduct extends React.Component {
             value: '',
             categoryId: '',
             content: null,
+            error: null,
         };
     }
 
@@ -24,12 +25,18 @@ class AddModifyProduct extends React.Component {
         if (this.props.match.params.id) {
             updateProduct(this.props.match.params.id, this.state).then(x =>
                 window.location.href = "/products/" + this.props.match.params.id
-            ).catch(error => console.log(error?.response?.data?.message));
+            ).catch(error => {
+                console.log(error?.response?.data?.message);
+                this.setState({error: error?.response?.data?.message});
+            });
         } else {
             addProduct(this.state).then(x => {
                     window.location.href = "/products/" + x.data.message;
                 }
-            ).catch(error => console.log(error?.response?.data?.message));
+            ).catch(error => {
+                console.log(error?.response?.data?.message);
+                this.setState({error: error?.response?.data?.message});
+            });
         }
     }
 
@@ -84,7 +91,9 @@ class AddModifyProduct extends React.Component {
     }
 
     render() {
-        return this.state.content;
+        return (
+            this.state.error ? <p>{this.state.error}</p> : this.state.content
+        );
     }
 }
 

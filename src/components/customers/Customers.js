@@ -8,6 +8,8 @@ class Customers extends Component {
         super(props);
         this.state = {
             customers: [],
+            isLoaded: false,
+            error: null,
         };
     }
 
@@ -15,18 +17,28 @@ class Customers extends Component {
         getCustomers().then(x => {
             this.setState({
                 customers: x.data,
+                isLoaded: true,
             })
-        }).catch(error => console.log(error?.response?.data?.message));
+        }).catch(error => {
+            console.log(error?.response?.data?.message);
+            this.setState({error: error.response?.data?.message, isLoaded: true})
+        });
     }
 
     render() {
         return <div style={{textAlign: "left"}}>
             <a href="/">Home</a>
-
-            <ul style={{width: "fit-content", textAlign: "left"}}>
-                {this.state.customers.map(x => <li>Customer: <a href={"customers/" + x.id}>{x.name} {x.surname}</a></li>)}
-            </ul>
-            <a href="/customers/form">Register</a>
+            {this.state.isLoaded ?
+                this.state.error ?
+                    <p>{this.state.error}</p> :
+                    <ul style={{width: "fit-content", textAlign: "left"}}>
+                        {this.state.customers.map(x => <li>Customer: <a
+                            href={"customers/" + x.id}>{x.name} {x.surname}</a>
+                        </li>)}
+                    </ul>
+                :
+                <p>Loading data...</p>
+            }
         </div>;
     }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {withRouter} from "react-router";
-import {addCoupon, getCustomers} from "../../../PathResolver";
+import {addCoupon} from "../../../PathResolver";
 
 class AddCategory extends React.Component {
     constructor(props) {
@@ -28,6 +28,7 @@ class AddCategory extends React.Component {
 
     setupData = (buttonText) => {
         this.setState({
+            customerId: this.props.match.params.id,
             content: <form style={{textAlign: "left"}} onSubmit={this.addCoupon}>
                 <h3>Category {buttonText} form</h3>
                 <p>Number: <input
@@ -40,19 +41,13 @@ class AddCategory extends React.Component {
                     defaultValue={this.state.description}
                     onChange={(e) => this.myChangeHandler(e, "discountVal")}
                 /></p>
-                <p>Customer: <select onChange={(e) => this.myChangeHandler(e, "customerId")}>
-                    {this.state.customers?.map(x => <option value={x.id}>{x.name} {x.surname}</option>)}
-                </select></p>
                 <input type="submit" value={buttonText}/>
             </form>
         })
     }
 
     componentDidMount() {
-        getCustomers().then(x => {
-            this.setState({customers: x.data});
-            this.setupData("Add");
-        }).catch(error => console.log(error?.response?.data?.message));
+        this.setupData("Add");
     }
 
     render() {

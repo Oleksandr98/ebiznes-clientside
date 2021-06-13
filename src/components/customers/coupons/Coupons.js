@@ -27,7 +27,7 @@ class Coupons extends Component {
             <ul style={{width: "fit-content", textAlign: "left"}}>
                 {this.state.coupons.map(x => <li>Coupon: <a href={"/coupons/" + x.id}>{x.number}</a></li>)}
             </ul>
-            <a href="/coupons/form">Add</a>
+            <a href={"/coupons/" + this.props.match.params.id + "/form"}>Add</a>
         </div>;
     }
 

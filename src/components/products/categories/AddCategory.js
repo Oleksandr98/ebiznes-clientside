@@ -9,6 +9,7 @@ class AddCategory extends React.Component {
             code: '',
             name: '',
             content: null,
+            error: null,
         };
     }
 
@@ -21,7 +22,10 @@ class AddCategory extends React.Component {
         addCategory(this.state).then(x => {
                 window.location.href = "/categories";
             }
-        ).catch(error => console.log(error?.response?.data?.message));
+        ).catch(error => {
+            console.log(error?.response?.data?.message)
+            this.setState({error: error?.response?.data?.message})
+        });
     }
 
     setupData = (buttonText) => {
@@ -48,7 +52,9 @@ class AddCategory extends React.Component {
     }
 
     render() {
-        return this.state.content;
+        return (
+            this.state.error ? <p>{this.state.error}</p> : this.state.content
+        );
     }
 }
 

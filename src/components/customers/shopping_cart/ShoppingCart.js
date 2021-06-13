@@ -14,6 +14,7 @@ const initialState = {
     schId: null,
     prdId: null,
     content: null,
+    isLoaded: false,
 }
 
 class ShoppingCart extends Component {
@@ -33,8 +34,12 @@ class ShoppingCart extends Component {
         }
     }
 
+    refresh() {
+        window.location.href = "/customers/" + this.props.match.params.id + "/shopping";
+    }
+
     order(id, cId) {
-        placeOrder(id, cId, {discountValue: this.state.coupon, cardId: this.state.card}).then(response => this.setState({...initialState})).catch(error => console.log(error.response?.data.message));
+        placeOrder(id, cId, {discountValue: this.state.coupon, cardId: this.state.card}).then(() => this.refresh()).catch(error => console.log(error.response?.data.message));
     }
 
     cardSetup(e, name) {
@@ -43,8 +48,8 @@ class ShoppingCart extends Component {
     }
 
     remove(id, pId) {
-        removeFromCart(id, pId).catch(error => console.log(error.response?.data.message)).then(
-            this.refreshProductsState(pId)
+        removeFromCart(id, pId).catch(error => console.log(error.response?.data.message)).then((prId) =>
+            this.refreshProductsState(prId)
         )
     }
 
@@ -97,7 +102,9 @@ class ShoppingCart extends Component {
                 this.setState({cart: carts[0]});
             }
         }).then(() => this.filterCards()).then(() => this.filterCoupons())
-            .then(() => this.initCartProducts()).catch(error => console.log(error.response?.data.message))
+            .then(() => this.initCartProducts()).then(() => {
+                this.setState({isLoaded: true})
+        }).catch(error => console.log(error.response?.data.message))
             .catch(error => console.log(error?.response?.data?.message));
     }
 
@@ -105,26 +112,31 @@ class ShoppingCart extends Component {
         return (
             <div style={{textAlign: "left"}}>
                 <a href={"/customers/" + this.props.match.params.id}>Back to customer</a>
-                <p>Total price: {this.state.cart?.cart.value || 0}</p>
-                <button onClick={() => this.goShopping(this.state.cart?.cart.id, this.state.cart?.customer.id)}>Continue
+                {this.state.isLoaded ? <>
+                    <p>Total price: {this.state.cart?.cart.value || 0}</p>
+                    <button onClick={() => this.goShopping(this.state.cart?.cart.id, this.state.cart?.customer.id)}>Continue
                     shopping
-                </button>
-                <p> Select your bonus card:
+                    </button>
+                    <p> Select your bonus card:
                     <select defaultValue={this.state.card} onChange={(e) => this.cardSetup(e, "card")}>
-                        <option value={this.state.card}>no card</option>
-                        {this.state.cards?.map(x => <option value={x.id}>{x.number}</option>)}
+                    <option value={this.state.card}>no card</option>
+                {this.state.cards?.map(x => <option value={x.id}>{x.number}</option>)}
                     </select>
-                </p>
-                <p> Select discount coupon:
+                    </p>
+                    <p> Select discount coupon:
                     <select defaultValue={this.state.coupon} onChange={(e) => this.cardSetup(e, "coupon")}>
-                        <option value={this.state.coupon}>no coupon</option>
-                        {this.state.coupons?.map(x => <option value={x.discountVal}>{x.number}</option>)}
+                    <option value={this.state.coupon}>no coupon</option>
+                {this.state.coupons?.map(x => <option value={x.discountVal}>{x.number}</option>)}
                     </select>
-                </p>
-                <p>Products in cart:</p>
+                    </p>
+                    <p>Products in cart:</p>
                 {this.display()}
-                <button onClick={() => this.order(this.state.cart.cart.id, this.state.cart.customer.id)}>Place order
-                </button>
+                    <button onClick={() => this.order(this.state.cart.cart.id, this.state.cart.customer.id)}>Place order
+                    </button>
+                </>
+                    : <p>Loading data...</p>
+                }
+
             </div>);
     }
 }

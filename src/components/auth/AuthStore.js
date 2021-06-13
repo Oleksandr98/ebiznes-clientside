@@ -39,6 +39,9 @@ class AuthStore {
                 runInAction(() => {
                     this.loggedIn = true;
                     this.signInStatus = "success";
+                    if (response.headers['csrftoken'] !== undefined) {
+                        sessionStorage.setItem("csrfToken", response.headers['csrftoken']);
+                    }
                 })
             } else {
                 runInAction(() => {
@@ -60,6 +63,7 @@ class AuthStore {
                 runInAction(() => {
                     this.loggedIn = false;
                     this.status = "success";
+                    sessionStorage.setItem("csrfToken", '')
                 })
             }
         } catch (error) {

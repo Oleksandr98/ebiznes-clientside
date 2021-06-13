@@ -8,7 +8,7 @@ import Offer from "./components/offers/Offer";
 import AddModifyOffer from "./components/offers/AddModifyOffer";
 import Customers from "./components/customers/Customers";
 import Customer from "./components/customers/Customer";
-import AddModifyCustomer from "./components/customers/AddModifyCustomer";
+import ModifyCustomer from "./components/customers/ModifyCustomer";
 import Card from "./components/customers/cards/Card";
 import Cards from "./components/customers/cards/Cards";
 import Transactions from "./components/customers/transactions/Transactions";
@@ -89,7 +89,7 @@ class App extends Component {
                         <Customers/>
                     </Route>
                     <Route exact path="/customers/form">
-                        <AddModifyCustomer/>
+                        <ModifyCustomer/>
                     </Route>
                     <Route exact path="/customers/:id/shopping">
                         <ShoppingCart/>
@@ -100,7 +100,7 @@ class App extends Component {
                     <Route exact path="/customers/:id/orders">
                         <Orders/>
                     </Route>
-                    <Route exact path="/coupons/form">
+                    <Route exact path="/coupons/:id/form">
                         <AddCoupon/>
                     </Route>
                     <Route exact path="/coupons/:id">
@@ -125,7 +125,7 @@ class App extends Component {
                         <Card/>
                     </Route>
                     <Route exact path="/customers/:id/modify">
-                        <AddModifyCustomer/>
+                        <ModifyCustomer/>
                     </Route>
                     <Route exact path="/customers/:id">
                         <Customer/>

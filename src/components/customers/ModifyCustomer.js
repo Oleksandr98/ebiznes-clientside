@@ -1,8 +1,8 @@
 import React from 'react';
-import {addCustomer, getCustomer, updateCustomer} from "../../PathResolver";
+import {getCustomer, updateCustomer} from "../../PathResolver";
 import {withRouter} from "react-router";
 
-class AddModifyCustomer extends React.Component {
+class ModifyCustomer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -19,23 +19,16 @@ class AddModifyCustomer extends React.Component {
         this.setState({[name]: event.target.value});
     }
 
-    addOrModify = (e) => {
+    modify = (e) => {
         e.preventDefault();
-        if (this.props.match.params.id) {
-            updateCustomer(this.props.match.params.id, this.state).then(x =>
-                window.location.href = "/customers/" + this.props.match.params.id
-            ).catch(error => console.log(error.response?.data.message));
-        } else {
-            addCustomer(this.state).then(x => {
-                    window.location.href = "/customers/" + x.data.message;
-                }
-            ).catch(error => console.log(error.response?.data.message));
-        }
+        updateCustomer(this.props.match.params.id, this.state).then(x =>
+            window.location.href = "/customers/" + this.props.match.params.id
+        ).catch(error => console.log(error.response?.data.message));
     }
 
     setupData = (buttonText) => {
         this.setState({
-            content: <form style={{textAlign: "left"}} onSubmit={this.addOrModify}>
+            content: <form style={{textAlign: "left"}} onSubmit={this.modify}>
                 <h3>Offer {buttonText} form</h3>
                 <p>Name: <input
                     type='text'
@@ -68,16 +61,12 @@ class AddModifyCustomer extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.match.params.id) {
-            getCustomer(this.props.match.params.id).then(obj => {
-                this.setState({...obj.data});
-                this.setupData("Modify");
-            }).catch(error => {
-                console.log(error?.response?.data?.message);
-            });
-        } else {
-            this.setupData("Add");
-        }
+        getCustomer(this.props.match.params.id).then(obj => {
+            this.setState({...obj.data});
+            this.setupData("Modify");
+        }).catch(error => {
+            console.log(error?.response?.data?.message);
+        });
     }
 
     render() {
@@ -85,4 +74,4 @@ class AddModifyCustomer extends React.Component {
     }
 }
 
-export default withRouter(AddModifyCustomer)
+export default withRouter(ModifyCustomer)
